@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
 import styles from "./MovieDetails.module.css";
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({});
   const { movieId } = useParams();
+  const navigate = useNavigate();
   const yearOfRelese = new Date(movieDetails.release_date).getFullYear();
-
-  //   console.log(id);
 
   useEffect(() => {
     fetch(
@@ -21,12 +20,14 @@ const MovieDetails = () => {
       .catch((err) => console.error(err));
   }, [movieId]);
 
-  console.log(movieDetails.genres);
+  // console.log(movieDetails.genres);
 
   return (
     Object.keys(movieDetails).length > 0 && (
       <main>
-        <Link to="/">Go back</Link>
+        <button type="button" onClick={() => navigate("/")}>
+          Go back
+        </button>
         <div className={styles.movieDetailsBox}>
           <img
             src={`https://image.tmdb.org/t/p/w300/${movieDetails.poster_path}`}
